@@ -1,7 +1,10 @@
 package associoholic.com.client.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Game(
         val id: String,
         val timer: Int,
@@ -12,7 +15,7 @@ data class Game(
         val code: String,
         @SerializedName("current_player") val currentPlayer: Int,
         @SerializedName("current_round") val currentRound: Int
-)
+): Parcelable
 
 //id timeuuid,
 //    "players": [
