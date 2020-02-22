@@ -1,7 +1,7 @@
 local logger = require "logger"
 local http = require "http_helper"
 local data_access = require "da.data_access"
-
+math.randomseed(ngx.time())
 local body = http.get_body()
 
 if not body.timer or type(body.timer) ~= "number" then
@@ -23,13 +23,13 @@ end
 
 local id, err_create = data_access.create_game(body.timer, body.no_of_rounds, body.no_of_words, body.name)
 if err_create then
-    logger.error("something went wrong creating the game: %s, %s", id, err_create)
+    logger.error("something went wrong creating the game: %s", err_create)
     http.end_phase(err_create, ngx.HTTP_INTERNAL_SERVER_ERROR)
 end
 
 local game, err_get = data_access.get_game(id)
 if err_get then
-    logger.error("something went wrong getting the game: %s, %s", game, err_get)
+    logger.error("something went wrong getting the game: %s", err_get)
     http.end_phase(err_get, ngx.HTTP_INTERNAL_SERVER_ERROR)
 end
 

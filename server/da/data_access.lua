@@ -109,12 +109,13 @@ local function get_game_id_from_code(code)
         logger.error(message)
         return nil, { message = message }
     end
-
-    return result[1]
+    
+    return result[1].id
 end
 
 local function add_a_player(id, name)
     local game, err = get_game(id)
+    logger.error("game not id %s", game)
     if err then
         return nil, err
     end
@@ -138,6 +139,7 @@ end
 
 local function join_game(code, name)
     local game_id, err = get_game_id_from_code(code)
+    logger.error("GAme %s ", game_id)
     if err then
         return nil, err
     end

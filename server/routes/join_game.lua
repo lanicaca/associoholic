@@ -14,7 +14,7 @@ end
 
 local game, err_join = data_access.join_game(body.code, body.name)
 if err_join then
-    logger.error("something went wrong joining the game: %s, %s", game, err_join)
+    logger.error("something went wrong joining the game: %s", err_join)
     http.end_phase(err_join, ngx.HTTP_INTERNAL_SERVER_ERROR)
 end
 
