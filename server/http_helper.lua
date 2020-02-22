@@ -14,14 +14,6 @@ local function get_body()
     return cjson.decode(ngx.req.get_body_data() or nil) or {}
 end
 
-local function get_db_metadata()
-    local claims = get_claims()
-    local body = get_body()
-    -- local metadata = select_metadata(claims.game_id)
-    logger.error("NOT IMPLEMENTED YET")
-    return {}
-end
-
 local function end_phase(response, status)
     ngx.status = status or ngx.HTTP_OK
     ngx.say(cjson.encode(response))

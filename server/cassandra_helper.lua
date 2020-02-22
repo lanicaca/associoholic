@@ -5,7 +5,6 @@ local global_connection
 
 local function get_connection()
     if (not global_connection) then
-        logger.error("STARTING CONNECTION")
         local peer = assert(cassandra.new {
             host = "10.254.1.237",
             port = 9042,
