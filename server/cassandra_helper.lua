@@ -20,7 +20,6 @@ local function get_connection()
 end
 
 local function query(q, args, options)
-    logger.error("helper args: %s", args)
     local session = get_connection()
     if not session then
         assert(false, "Failed to get Cassandra session")

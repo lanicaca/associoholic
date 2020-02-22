@@ -1,9 +1,13 @@
-CREATE KEYSPACE IF NOT EXISTS ass WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};
+DROP KEYSPACE ass;
+
+CREATE KEYSPACE ass WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};
 
 CREATE TABLE IF NOT EXISTS ass.games (
     id timeuuid,
     timer int,
     no_of_rounds int,
+    current_round int,
+    current_player int,
     no_of_words int,
     players text,
     words text,

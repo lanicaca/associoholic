@@ -16,7 +16,6 @@ end
 local function set_code_to_game_id(code, id)
     local query = "UPDATE code_to_game_id SET id = ? where code = ?"
     local args = { cassandra.timeuuid(id), code }
-    logger.error("data acces args %s", args)
     return cassandra_helper.query(query, args, {})
 end
 
@@ -36,18 +35,23 @@ local function get_game(id)
     end
 
     local game = result[1]
+    if game.words ~= "null" then
+        logger.error("bool: %s", game.words)
+    end
     return {
         id = game.id,
         code = game.code,
         timer = game.timer,
+        current_round = game.current_round,
+        current_player = game.current_player,
         no_of_words = game.no_of_words,
         no_of_rounds = game.no_of_rounds,
-        players = cjson.decode(game.players) or get_empty_array(),
-        words = cjson.decode(game.words) or get_empty_array(),
+        players = game.players ~= "null" and cjson.decode(game.players) or get_empty_array(),
+        words = game.words ~= "null" and cjson.decode(game.words) or get_empty_array(),
     }
 end
 
-local function update_game(id, timer, no_of_rounds, no_of_words, players, words, code)
+local function update_game(id, timer, no_of_rounds, no_of_words, players, words, code, current_round, current_player)
     local query = [[
         UPDATE games SET
             timer = ?,
@@ -55,7 +59,9 @@ local function update_game(id, timer, no_of_rounds, no_of_words, players, words,
             no_of_words = ?,
             players = ?,
             words = ?,
-            code = ?
+            code = ?,
+            current_round = ?,
+            current_player = ?
         WHERE
             id = ?
     ]]
@@ -67,6 +73,8 @@ local function update_game(id, timer, no_of_rounds, no_of_words, players, words,
         cjson.encode(players) or cassandra.unset,
         cjson.encode(words) or cassandra.unset,
         code or cassandra.unset,
+        current_round or cassandra.unset,
+        current_player or cassandra.unset,
         cassandra.timeuuid(id)
     }
 
@@ -87,10 +95,13 @@ local function create_game(timer, no_of_rounds, no_of_words, name)
         timer,
         no_of_rounds,
         no_of_words,
-        { [name] = { points = 0 } },
-        {},
-        code
+        { [1] = { name = name, points = 0 } },
+        nil,
+        code,
+        0,
+        0
     )
+
     if err_create then
         return nil, err_create
     end
@@ -109,7 +120,7 @@ local function get_game_id_from_code(code)
         logger.error(message)
         return nil, { message = message }
     end
-    
+
     return result[1].id
 end
 
@@ -120,14 +131,13 @@ local function add_a_player(id, name)
         return nil, err
     end
 
-    for p_name, _ in pairs(game.players) do
-        if p_name == name then
+
+    for _, data in pairs(game.players) do
+        if data.name == name then
             return nil, { message = string.format("Name %s already used, please use another one", name) }
         end
     end
-    game.players[name] = {
-        points = 0
-    }
+    table.insert(game.players, { name = name, points = 0})
 
     local _, err_update = update_game(id, nil, nil, nil, game.players, nil, nil)
     if err_update then
