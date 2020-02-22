@@ -17,7 +17,7 @@ class JoinGameRequest(private val gameCode: String, private val name: String) : 
         }
 
         request = Request.Builder()
-                .url("$BASE_URL")
+                .url("$BASE_URL$JOIN_GAME")
                 .post(RequestBody.create(JSON, json.toString()))
 
         return super.buildRequest()

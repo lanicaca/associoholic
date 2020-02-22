@@ -39,9 +39,9 @@
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
-        android:name="associoholic.com.client.ui.player.PlayerFragment"
+        android:name="associoholic.com.client.ui.player.PairsFragment"
         android:label="player_fragment"
-        tools:layout="@layout/player_fragment" >
+        tools:layout="@layout/pairs_fragment" >
         <argument
             android:name="isMaster"
             app:argType="integer"

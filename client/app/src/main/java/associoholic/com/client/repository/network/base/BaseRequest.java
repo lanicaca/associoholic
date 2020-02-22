@@ -29,7 +29,8 @@ import okhttp3.Response;
 public abstract class BaseRequest<T> extends LiveData<Resource<T>> implements Callback {
     protected static final String
             BASE_URL = BuildConfig.BASE_URL,
-            CREATE_GAME = "/create_game";
+            CREATE_GAME = "/create_game",
+            JOIN_GAME="/join_game";
     protected static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     protected static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
     protected static final MediaType MEDIA_TYPE_JPG = MediaType.parse("image/jpeg");
