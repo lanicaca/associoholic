@@ -5,14 +5,13 @@ local global_connection
 
 local function get_connection()
     if (not global_connection) then
+        logger.error("STARTING CONNECTION")
         local peer = assert(cassandra.new {
-            host = "127.0.0.1",
+            host = "10.254.1.237",
             port = 9042,
             keyspace = "ass"
         })
-
         peer:settimeout(1000)
-
         global_connection = peer
     end
 
@@ -26,13 +25,12 @@ local function query(q, args, options)
         assert(false, "Failed to get Cassandra session")
     end
 
-    logger.error("QUERY:\n%s\nARGS:\n%s", q, args)
     assert(session:connect())
     local result, err = session:execute(q, args, options)
     session:close()
 
     if (not result) then
-        logger.error("Failed to run query: %s args: %s options: %s error: %s elapsedMs: %d", q, args, options, err, elapsedMs)
+        logger.error("Failed to run query: %s args: %s options: %s error: %s", q, args, options, err)
     end
 
     return result, err

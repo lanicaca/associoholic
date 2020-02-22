@@ -1,9 +1,19 @@
-CREATE KEYSPACE ass WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};
+CREATE KEYSPACE IF NOT EXISTS ass WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};
 
-CREATE TABLE ass.games (
-    id text,
-    no_of_players 
+CREATE TABLE IF NOT EXISTS ass.games (
+    id uuid,
+    timer int,
+    no_of_rounds int,
+    no_of_words int,
+    no_of_players int,
+    words list<text>,
+    points map<int, text>,
+    code text,
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE ass.gamecode_reverse_map (
+CREATE TABLE IF NOT EXISTS ass.code_to_game_id (
+    code text,
+    id uuid,
+    PRIMARY KEY (code)
 );

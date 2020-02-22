@@ -11,7 +11,7 @@ end
 
 local function get_body()
     ngx.req.read_body()
-    return cjson.decode(ngx.req.get_body_data() or nil)
+    return cjson.decode(ngx.req.get_body_data() or nil) or {}
 end
 
 local function get_db_metadata()
@@ -22,7 +22,8 @@ local function get_db_metadata()
     return {}
 end
 
-local function end_phase(response)
+local function end_phase(response, status)
+    ngx.status = status or ngx.HTTP_OK
     ngx.say(cjson.encode(response))
     return ngx.exit(ngx.HTTP_OK)
 end

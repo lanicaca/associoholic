@@ -56,13 +56,13 @@ end
 local function create_game(timer, no_of_rounds, no_of_words)
     local code = generate_code()
     local id = cassandra.timeuuid(ngx.time())
-    local res, err
-    res, err = set_code_to_game_id()
-    if err then
-        return nil, err
+
+    local _, err_set = set_code_to_game_id()
+    if err_set then
+        return nil, err_set
     end
 
-    res, err = update_game(
+    local _, err_create = update_game(
         id,
         timer,
         no_of_rounds,
@@ -72,8 +72,8 @@ local function create_game(timer, no_of_rounds, no_of_words)
         {},
         code
     )
-    if err then
-        return nil, err
+    if err_create then
+        return nil, err_create
     end
 
     return id
