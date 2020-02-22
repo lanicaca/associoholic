@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS ass.games (
     timer int,
     no_of_rounds int,
     no_of_words int,
-    players list<text>,
-    words list<text>,
+    players text,
+    words text,
     code text,
     PRIMARY KEY (id)
 );

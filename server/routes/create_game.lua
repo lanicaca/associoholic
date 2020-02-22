@@ -16,7 +16,12 @@ if not body.timer or type(body.no_of_words) ~= "number" then
     http.end_phase({ message = "no_of_words is required and must be a number", }, ngx.HTTP_BAD_REQUEST)
 end
 
-local id, err_create = data_access.create_game(body.timer, body.no_of_rounds, body.no_of_words)
+
+if not body.name or type(body.name) ~= "string" then
+    http.end_phase({ message = "name is required and must be a string", }, ngx.HTTP_BAD_REQUEST)
+end
+
+local id, err_create = data_access.create_game(body.timer, body.no_of_rounds, body.no_of_words, body.name)
 if err_create then
     logger.error("something went wrong creating the game: %s, %s", id, err_create)
     http.end_phase(err_create, ngx.HTTP_INTERNAL_SERVER_ERROR)
