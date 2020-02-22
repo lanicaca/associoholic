@@ -25,24 +25,35 @@ local function get_game(id)
     return cassandra_helper.query(query, { id }, {})
 end
 
-local function update_game(id, timer, words, no_of_players, no_of_rounds, points, code)
+local function update_game(id, timer, no_of_rounds, no_of_words, no_of_players, words, points, code)
     local query = [[
         UPDATE games SET
             timer = ?,
-            words = ?,
-            no_of_players = ?,
             no_of_rounds = ?,
+            no_of_words = ?,
+            no_of_players = ?,
+            words = ?,
             points = ?,
             code = ?
         WHERE
             id = ?
     ]]
 
-    local args = { timer, words, no_of_players, no_of_rounds, points, code or cassandra.unset, id }
+    local args = {
+        timer or cassandra.unset,
+        no_of_rounds or cassandra.unset,
+        no_of_words or cassandra.unset,
+        no_of_players or cassandra.unset,
+        words or cassandra.unset,
+        points or cassandra.unset,
+        code or cassandra.unset,
+        id
+    }
+
     return cassandra_helper.query(query, args, {})
 end
 
-local function create_game(timer, no_of_rounds)
+local function create_game(timer, no_of_rounds, no_of_words)
     local code = generate_code()
     local id = cassandra.timeuuid(ngx.time())
     local res, err
@@ -54,9 +65,10 @@ local function create_game(timer, no_of_rounds)
     res, err = update_game(
         id,
         timer,
-        {},
-        0,
         no_of_rounds,
+        no_of_words,
+        0,
+        {},
         {},
         code
     )

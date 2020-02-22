@@ -4,7 +4,7 @@ local data_access = require "da.data_access"
 
 local body = http.get_body()
 
-local id, err_create = data_access.create_game(body.timer, body.no_of_rounds)
+local id, err_create = data_access.create_game(body.timer, body.no_of_rounds, body.no_of_words)
 if err_create then
     logger.error("something went wrong: %s, %s", id, err_create)
     ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
