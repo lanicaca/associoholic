@@ -1,6 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+apply plugin: 'com.diffplug.gradle.spotless'
+
 buildscript {
     ext {
         // Sdk and tools
@@ -30,6 +32,8 @@ buildscript {
         classpath "com.android.tools.build:gradle:$gradleVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:3.27.1"
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -56,6 +60,24 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+spotless {
+    kotlinGradle {
+        // This path needs to be relative to each project
+        target fileTree(dir: "src", include: "**/*.kt")
+        // see https://github.com/shyiko/ktlint#standard-rules
+        trimTrailingWhitespace()
+        indentWithTabs()
+        endWithNewline()
+        ktlint().userData("disabled_rules" : "no-wildcard-imports")
+    }
 }
+
+task installGitHook(type: Copy) {
+    from new File(rootProject.rootDir, 'pre-commit')
+    into { new File(rootProject.rootDir, '.git/hooks') }
+    fileMode 0777
+}
+
+tasks.getByPath(':app:preBuild').dependsOn installGitHook
+
+

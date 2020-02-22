@@ -1,0 +1,19 @@
+#!/bin/sh
+# From gist at https://gist.github.com/chadmaughan/5889802
+
+# stash any unstaged changes
+git stash -q --keep-index
+
+# run the tests with the gradle wrapper
+./gradlew clean
+./gradlew spotlessApply
+
+# store the last exit code in a variable
+RESULT=$?
+git add .
+
+# unstash the unstashed changes
+git stash pop -q
+
+# return the './gradlew spotlessApply' exit code
+exit $RESULT
