@@ -4,9 +4,17 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <include
+    <TextView
         android:id="@+id/return_button"
-        layout="@layout/item_return_button" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_left_accent_24dp"
+        android:text="@string/return_"
+        android:textAlignment="textStart"
+        android:layout_marginTop="20dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_view"
@@ -52,7 +60,6 @@
                     android:id="@+id/code_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="number"
                     android:maxLength="6"
                     android:textAlignment="center"
                     android:textColor="@color/colorAccent"
@@ -68,14 +75,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_layout"
-        android:layout_marginTop="70dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:errorEnabled="true"
         android:hint="@string/your_name_goes_here"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/return_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 

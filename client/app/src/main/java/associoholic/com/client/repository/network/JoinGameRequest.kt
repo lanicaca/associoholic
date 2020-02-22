@@ -24,9 +24,13 @@ class JoinGameRequest(private val gameCode: String, private val name: String) : 
     }
 
     override fun onSuccess(response: Response): Resource<Game> {
-        val resource: Resource<Game> = gson.fromJson(parseToJson(response).asJsonObject, object : TypeToken<Game>() {}.type)
-        postValue(resource)
-        return resource
+        val game: Game = gson.fromJson(
+                parseToJson(response).asJsonObject.getAsJsonObject("game"),
+                object : TypeToken<Game>() {}.type
+        )
+        val r = Resource.success(game)
+        postValue(r)
+        return r
     }
 
 }

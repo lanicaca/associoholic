@@ -15,7 +15,6 @@ class PairsAdapter(
         val pickPair: (Player) -> Unit
 ) : RecyclerView.Adapter<PairsAdapter.ViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
             fragment.layoutInflater.inflate(
                     R.layout.item_player, parent, false
@@ -48,10 +47,16 @@ class PairsAdapter(
 
         fun bind() {
             player_name.text = player.name
-            card_view.setCardBackgroundColor(
-                    if (player.isSelected) fragment.resources.getColor(R.color.colorPrimary)
-                    else fragment.resources.getColor(R.color.white)
-            )
+            fragment.resources.let {
+                if (player.isSelected) {
+                    player_name.setTextColor(it.getColor(R.color.white))
+                    card_view.setCardBackgroundColor(fragment.resources.getColor(R.color.colorAccent))
+
+                } else {
+                    player_name.setTextColor(it.getColor(R.color.colorAccent))
+                    card_view.setCardBackgroundColor(it.getColor(R.color.white))
+                }
+            }
         }
 
         override fun onClick(v: View?) {

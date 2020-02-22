@@ -30,7 +30,7 @@ class CreateGameRequest(private val timer: Int,
 
     override fun onSuccess(response: Response): Resource<Game> {
         val game: Game = gson.fromJson(
-                parseToJson(response).asJsonObject,
+                parseToJson(response).asJsonObject.getAsJsonObject("game"),
                 object : TypeToken<Game>() {}.type
         )
         val r = Resource.success(game)

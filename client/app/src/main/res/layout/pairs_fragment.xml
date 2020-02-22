@@ -9,10 +9,37 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/colorPrimary35">
 
-        <include layout="@layout/item_return_button"
-            android:id="@+id/return_button" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/return_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_left_accent_24dp"
+                android:text="@string/return_"
+                android:textAlignment="textStart"
+                android:layout_marginTop="20dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/game_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                android:text="CODE:\n123456"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -22,7 +49,8 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:itemCount="1000"
-        tools:listitem="@layout/item_player"/>
+        tools:listitem="@layout/item_player"
+        android:paddingBottom="100dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_start"
@@ -33,6 +61,8 @@
         android:layout_marginTop="63dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
+        android:elevation="20dp"
+        app:elevation="20dp"
         android:text="@string/start_game"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

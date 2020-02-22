@@ -47,4 +47,8 @@ class Repository : Observer<String?> {
     fun setCurrentGame(game: Game) {
         currentGame = game
     }
+
+    fun getGame(): Game {
+        return currentGame
+    }
 }

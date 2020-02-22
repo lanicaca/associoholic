@@ -1,20 +1,31 @@
 package associoholic.com.client.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Game(
         val id: String,
         val timer: Int,
-        val roundsCount: Int,
-        val wordsCount: Int,
+        @SerializedName("no_of_rounds")val roundsCount: Int,
+        @SerializedName("no_of_words") val wordsCount: Int,
         val players: List<Player>,
         val words: List<String>,
-        val gameCode: String
+        val code: String,
+        @SerializedName("current_player") val currentPlayer: Int,
+        @SerializedName("current_round") val currentRound: Int
 )
 
 //id timeuuid,
-//    timer int,
-//    no_of_rounds int,
-//    no_of_words int,
-//    players list<text>,
-//    words list<text>,
-//    code text,
-//    PRIMARY KEY (id)
+//    "players": [
+//            {
+//                "name": "Lana",
+//                "points": 0
+//            }
+//        ],
+//        "no_of_words": 10,
+//        "id": "25be14de-55bf-11ea-a42f-0242ac110003",
+//        "current_player": 0,
+//        "words": [],
+//        "timer": 100,
+//        "code": "YZTRGA",
+//        "no_of_rounds": 7,
+//        "current_round": 0
