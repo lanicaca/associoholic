@@ -20,23 +20,27 @@ local function set_code_to_game_id(code, id)
     return cassandra_helper.query(query, args, {})
 end
 
-local function get_game_id_from_code(code)
-    local query = "SELECT id FROM code_to_game_id WHERE code = ?"
-    return cassandra_helper.query(query, { code }, {})
-end
-
 local function get_game(id)
     local query = "SELECT * FROM games WHERE id = ?"
-    return cassandra_helper.query(query, { id }, {})
+    local result, error = cassandra_helper.query(query, { cassandra.timeuuid(id) }, {})
+    if error then
+        return nil, error
+    end
+    if #result < 1 then
+        logger.error("Nothing to return")
+        return nil, { message = "Nothing to return" }
+    end
+
+    return result[1]
 end
 
-local function update_game(id, timer, no_of_rounds, no_of_words, no_of_players, words, points, code)
+local function update_game(id, timer, no_of_rounds, no_of_words, players, words, points, code)
     local query = [[
         UPDATE games SET
             timer = ?,
             no_of_rounds = ?,
             no_of_words = ?,
-            no_of_players = ?,
+            players = ?,
             words = ?,
             points = ?,
             code = ?
@@ -48,11 +52,11 @@ local function update_game(id, timer, no_of_rounds, no_of_words, no_of_players, 
         timer or cassandra.unset,
         no_of_rounds or cassandra.unset,
         no_of_words or cassandra.unset,
-        no_of_players or cassandra.unset,
+        players or cassandra.unset,
         words or cassandra.unset,
         points or cassandra.unset,
         code or cassandra.unset,
-        id
+        cassandra.timeuuid(id)
     }
 
     return cassandra_helper.query(query, args, {})
@@ -72,7 +76,7 @@ local function create_game(timer, no_of_rounds, no_of_words)
         timer,
         no_of_rounds,
         no_of_words,
-        0,
+        {},
         {},
         {},
         code
@@ -82,6 +86,15 @@ local function create_game(timer, no_of_rounds, no_of_words)
     end
 
     return id
+end
+
+local function get_game_id_from_code(code)
+    local query = "SELECT id FROM code_to_game_id WHERE code = ?"
+    return cassandra_helper.query(query, { code }, {})
+end
+
+local function join_game(code, name)
+    local game, err = get_game()
 end
 
 return {
