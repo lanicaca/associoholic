@@ -1,7 +1,7 @@
 CREATE KEYSPACE IF NOT EXISTS ass WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};
 
 CREATE TABLE IF NOT EXISTS ass.games (
-    id uuid,
+    id timeuuid,
     timer int,
     no_of_rounds int,
     no_of_words int,
@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS ass.games (
 
 CREATE TABLE IF NOT EXISTS ass.code_to_game_id (
     code text,
-    id uuid,
+    id timeuuid,
     PRIMARY KEY (code)
 );
