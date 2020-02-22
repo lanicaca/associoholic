@@ -1,16 +1,11 @@
 local logger = require "logger"
-
+local cjson = require "cjson.safe"
 local data_access = require "da.data_access"
+local fb = require "firebase_helper"
 
-local map = {}
+ngx.req.read_body()
+local body = cjson.decode(ngx.req.get_body_data())
 
-for _ = 1, 100 do
-    local code = data_access.generate_code()
-    if map[code] then
-        map[code] = map[code] + 1
-    else
-        map[code] = 1
-    end
-end
+local a = fb.test("/users/user1/")
 
-ngx.say(require"cjson.safe".encode(map))
+ngx.say(require"cjson.safe".encode(a))

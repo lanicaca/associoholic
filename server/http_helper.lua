@@ -23,6 +23,5 @@ end
 return {
     get_claims = get_claims,
     get_body = get_body,
-    get_db_metadata = get_db_metadata,
     end_phase = end_phase,
 }

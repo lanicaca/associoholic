@@ -128,7 +128,6 @@ local function add_a_player(id, name)
         return nil, err
     end
 
-
     for _, data in pairs(game.players) do
         if data.name == name then
             return nil, { message = string.format("Name %s already used, please use another one", name) }
