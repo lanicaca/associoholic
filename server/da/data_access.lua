@@ -1,5 +1,6 @@
 local cassandra_helper = require "cassandra_helper"
 local cassandra = require "cassandra"
+local logger = require "logger"
 
 local function generate_code()
     local str="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -12,6 +13,8 @@ end
 
 local function set_code_to_game_id(code, id)
     local query = "UPDATE code_to_game_id SET id = ? where code = ?"
+    local args = { id, code }
+    logger.error("data acces args %s", args)
     return cassandra_helper.query(query, { id, code }, {})
 end
 
@@ -57,7 +60,7 @@ local function create_game(timer, no_of_rounds, no_of_words)
     local code = generate_code()
     local id = cassandra.timeuuid(ngx.time())
 
-    local _, err_set = set_code_to_game_id()
+    local _, err_set = set_code_to_game_id(code, id)
     if err_set then
         return nil, err_set
     end
