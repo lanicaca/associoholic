@@ -14,9 +14,6 @@ class PrefManager(c: Context) {
     val liveDataToken: SharedPreferenceLiveData<String?> =
             sp.stringLiveData(PREF_TOKEN_ACCESS, null)
 
-    val liveDataRecent: SharedPreferenceLiveData<String?> =
-            sp.stringLiveData(PREF_RECENT_LOCATIONS, null)
-
     init {
         //upgrade sharedPrefs here if necessary
         sp.edit().putInt(PREF_VERSION_CODE, BuildConfig.VERSION_CODE).apply()
@@ -33,14 +30,9 @@ class PrefManager(c: Context) {
 
     fun getUserRefreshToken() = sp.getString(PREF_TOKEN_REFRESH, null)
 
-    fun setRecentLocations(recentLocations: String) = sp.edit().putString(PREF_RECENT_LOCATIONS, recentLocations).apply()
-
-    fun getRecentLocations() = sp.getString(PREF_RECENT_LOCATIONS, null)
-
     companion object {
         const val PREF_VERSION_CODE = "pref_version_code"
         const val PREF_TOKEN_ACCESS = "pref_token_access"
-        const val PREF_RECENT_LOCATIONS = "pref_recent_locations"
         const val PREF_TOKEN_REFRESH = "pref_token_refresh"
 
         @Volatile

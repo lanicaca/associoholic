@@ -9,5 +9,54 @@
         android:id="@+id/assFragment"
         android:name="associoholic.com.client.AssFragment"
         android:label="fragment_ass"
-        tools:layout="@layout/fragment_ass" />
+        tools:layout="@layout/fragment_ass" >
+        <action
+            android:id="@+id/action_assFragment_to_masterFragment"
+            app:destination="@id/masterFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_assFragment_to_joinFragment"
+            app:destination="@id/joinFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/masterFragment"
+        android:name="associoholic.com.client.ui.startup.MasterFragment"
+        android:label="MasterFragment" >
+        <action
+            android:id="@+id/action_masterFragment_to_playerFragment"
+            app:destination="@id/playerFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/playerFragment"
+        android:name="associoholic.com.client.ui.player.PlayerFragment"
+        android:label="player_fragment"
+        tools:layout="@layout/player_fragment" >
+        <argument
+            android:name="isMaster"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinFragment"
+        android:name="associoholic.com.client.ui.startup.JoinFragment"
+        android:label="JoinFragment" >
+        <action
+            android:id="@+id/action_joinFragment_to_playerFragment"
+            app:destination="@id/playerFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
 </navigation>
